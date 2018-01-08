@@ -105,3 +105,16 @@ end
 file 'C:\distGroupMngmtAudit.lock' do
   action :nothing
 end
+
+# Audit Distributed Group Management
+# windows-baseline: windows-audit-207
+execute 'Audit PNP Activity' do
+  command 'AuditPol /Set /SubCategory:"Audit PNP Activity" /Success:Enable'
+  action :run
+  not_if { ::File.exist?('C:\pnpActivity.lock') }
+  notifies :create, 'file[C:\pnpActivity.lock]', :immediately
+end
+
+file 'C:\pnpActivity.lock' do
+  action :nothing
+end
