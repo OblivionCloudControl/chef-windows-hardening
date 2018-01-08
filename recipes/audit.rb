@@ -108,13 +108,13 @@ end
 
 # Audit Distributed Group Management
 # windows-baseline: windows-audit-207
-execute 'Audit PNP Activity' do
-  command 'AuditPol /Set /SubCategory:"Audit PNP Activity" /Success:Enable'
+execute 'Audit Plug and Play events' do
+  command 'AuditPol /Set /SubCategory:"Plug and Play events" /Success:Enable'
   action :run
-  not_if { ::File.exist?('C:\pnpActivity.lock') }
-  notifies :create, 'file[C:\pnpActivity.lock]', :immediately
+  not_if { ::File.exist?('C:\pnpEvents.lock') }
+  notifies :create, 'file[C:\pnpEvents.lock]', :immediately
 end
 
-file 'C:\pnpActivity.lock' do
+file 'C:\pnpEvents.lock' do
   action :nothing
 end
